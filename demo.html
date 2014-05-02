@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/say-cheese-qr.js" type="text/javascript"></script>
+    <script src="js/jsqrcode-combined.min.js" type="text/javascript"></script>
+</head>
+<body>
+<button type="button" id="startQRReader">Start QR Reader</button>
+<button type="button" id="stopQRReader">Stop QR Reader</button>
+<div id="qr-reader"></div>
+
+<script>
+    var qrReader = new SayQRCode('#qr-reader', {snapshots: true });
+
+    qrReader.setQROptions(function (successData) {
+                if (successData != "error decoding QR Code")
+                    alert(successData);
+            },
+            function (errorData) {
+                console.log(errorData);
+            });
+
+    $('#startQRReader').on('click', function(event) {
+        qrReader.start();
+        qrReader.startQrRead(1000);
+    });
+
+    $('#stopQRReader').on('click', function(event) {
+        qrReader.stop();
+    });
+
+</script>
+</body>
+</html>

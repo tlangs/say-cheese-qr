@@ -1,7 +1,8 @@
-Say Cheese!
+Say Cheese! - QR Code Edition
 ===========
-A minimal library for integrating webcam snapshots into your app. It uses `getUserMedia`, a recent API for
-accessing audio and video in the browser.
+A minimal library for integrating webcam snapshots and QR code decoding into your app. It uses `getUserMedia`, a recent API for
+accessing audio and video in the browser. This project is a fork of the wonderful [**Say Cheese!**](https://github.com/leemachin/say-cheese) project for camera access
+ and utilizes LazarSoft's [**jsqrcode**](https://github.com/LazarSoft/jsqrcode) library to decode QR codes
 
 [**Demo**](http://leemachin.github.com/say-cheese)
 
@@ -12,7 +13,7 @@ Setup
 Grab the JS, host it, and add it to your page. For example:
 
 ```html
-<script src='/assets/js/say-cheese.js'></script>
+<script src='/assets/js/say-cheese-qr.js'></script>
 ```
 
 Usage
@@ -38,6 +39,9 @@ sayCheese.on('snapshot', function(snapshot) {
 });
 
 sayCheese.start();
+
+sayCheese.start(320);
+  // start the video with a height of 320 pixels
 ```
 
 Taking snapshots

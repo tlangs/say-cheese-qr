@@ -10,7 +10,7 @@ function equals(obj1, obj2) {
 
 test("options are set correctly", function() {
   var options   = { snapshots: false, audio: false },
-      sayCheese = new SayCheese('#camera-test', options);
+      sayCheese = new SayQRCode('#camera-test', options);
 
   ok(equals(sayCheese.options, options), "options correctly set");
 
@@ -21,7 +21,7 @@ test("options are set correctly", function() {
 });
 
 asyncTest("triggers 'start' event when access permitted (click Allow)", function() {
-  var sayCheese = new SayCheese('#camera-test');
+  var sayCheese = new SayQRCode('#camera-test');
 
   sayCheese.on('start', function() {
     ok(true, "start event triggered");
@@ -33,7 +33,7 @@ asyncTest("triggers 'start' event when access permitted (click Allow)", function
 });
 
 asyncTest("triggers 'snapshot' event when taking a snapshot", function() {
-  var sayCheese = new SayCheese('#camera-test');
+  var sayCheese = new SayQRCode('#camera-test');
 
   sayCheese.on('start', function() {
     this.takeSnapshot();
@@ -50,7 +50,7 @@ asyncTest("triggers 'snapshot' event when taking a snapshot", function() {
 
 
 asyncTest("triggers 'stop' event and successfully cleans up when stopping", function() {
-  var sayCheese = new SayCheese('#camera-test');
+  var sayCheese = new SayQRCode('#camera-test');
 
   sayCheese.on('stop', function() {
     ok(true, "stop event triggered");
@@ -65,7 +65,7 @@ asyncTest("triggers 'stop' event and successfully cleans up when stopping", func
 });
 
 asyncTest("snapshot feature does nothing when disabled", function() {
-  var sayCheese = new SayCheese('#camera-test', { snapshots: false });
+  var sayCheese = new SayQRCode('#camera-test', { snapshots: false });
 
   sayCheese.on('start', function() {
     ok(this.takeSnapshot() === false, "can't take snapshot");
@@ -77,7 +77,7 @@ asyncTest("snapshot feature does nothing when disabled", function() {
 });
 
 asyncTest("triggers 'error' event when not supported", function() {
-  var sayCheese = new SayCheese('#camera-test');
+  var sayCheese = new SayQRCode('#camera-test');
 
   // store correct property so we can switch it back after following test
   var origGetUserMedia = navigator.getUserMedia;
@@ -95,7 +95,7 @@ asyncTest("triggers 'error' event when not supported", function() {
 });
 
 asyncTest("triggers 'error' event when access denied (click Deny)", function() {
-  var sayCheese = new SayCheese('#camera-test');
+  var sayCheese = new SayQRCode('#camera-test');
 
   sayCheese.on('error', function(err) {
     ok(true, "access denied event triggered");
