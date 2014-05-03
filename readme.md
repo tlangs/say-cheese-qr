@@ -4,7 +4,7 @@ A minimal library for integrating webcam snapshots and QR code decoding into you
 accessing audio and video in the browser. This project is a fork of the wonderful [**Say Cheese!**](https://github.com/leemachin/say-cheese) project for camera access
  and utilizes LazarSoft's [**jsqrcode**](https://github.com/LazarSoft/jsqrcode) library to decode QR codes
 
-[**Demo**](http://leemachin.github.com/say-cheese)
+[**Demo**](http://tlangs.github.io/say-cheese-qr/)
 
 *If you don't care about snapshots and browser incompatibilities, like `Promises`, and just want an easy way to get at the webcam and mic, check out [Sound and Vision](https://github.com/leemachin/sound-and-vision).*
 
