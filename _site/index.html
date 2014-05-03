@@ -1,111 +1,148 @@
+---
+---
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Say Cheese!</title>
-    <link rel='stylesheet' href='public/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='public/css/pygments.css'>
-    <link rel='stylesheet' href='public/css/say-cheese.css'>
+    <title>Say Cheese! - QR Code Edition</title>
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/css/pygments.css">
+    <link rel="stylesheet" href="public/css/say-cheese.css">
   </head>
 
   <body>
 
-    <div class='container'>
-      <div class='row'>
-        <div class='span12'>
-          <h1>Say Cheese!</h1>
-          <p class='lead'>Minimal javascript library for integrating a webcam and snapshots into your app.</p>
-          <iframe src="http://ghbtns.com/github-btn.html?user=leemachin&repo=say-cheese&type=watch&count=true&size=large"
-  allowtransparency="true" frameborder="0" scrolling="0" width="152px" height="30px"></iframe>
-          <iframe src="http://ghbtns.com/github-btn.html?user=leemachin&repo=say-cheese&type=fork&count=true&size=large"
-  allowtransparency="true" frameborder="0" scrolling="0" width="146px" height="30px"></iframe>
-
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <h1>Say Cheese! - QR Code Edition</h1>
+          <p class="lead">Minimal javascript library for integrating a webcam and snapshots into your app.</p>
         </div>
       </div>
 
-      <div class='row'>
-        <div class='span12 say-cheese'>
-          <div id='say-cheese-container'>
-            <div id='action-buttons'>
-              <button class='btn btn-inverse' id='reset-viewfinder'>reset</button>
-              <button class='btn btn-success' id='take-snapshot'>snap!</button>
+
+      <div class="row">
+        <div class="span12 say-cheese">
+        <h2>Press the buttons to start and stop QR Code reading!</h2>
+        <button type="button" class="btn" id="startQrReadButton">Start QR Reading</button>
+        <button type="button" class="btn" id="stopQrReadButton">Stop QR Reading</button>
+        
+          <div id="say-cheese-container">
+            <div id="action-buttons">
+              <button class="btn btn-success" id="take-snapshot">snap!</button>
             </div>
           </div>
-          <div id='say-cheese-snapshots'></div>
+          <div id="say-cheese-snapshots"></div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-xs-6">
+        <div class="well">
+            <h3>Output of read</h3>
+            <p id="qrSuccessOutput"></p>
+          </div>
         </div>
       </div>
 
-      <div class='row'>
-        <div class='span6'>
+      <div class="row">
+        <div class="span6">
           <h3>Taking pictures</h3>
           <p><strong>Say Cheese</strong> exposes a simple, event-based API for taking snapshots from your webcam:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">sayCheese</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SayCheese</span><span class="p">(</span><span class="s1">&#39;#container-element&#39;</span><span class="p">);</span>
-  <span class="nx">sayCheese</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">snapshot</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">takeSnapshot</span><span class="p">();</span>
-  <span class="p">});</span>
+{% highlight javascript %}
+$(function() {
+  var sayQr = new SayQRCode('#container-element', { snapshots: true });
+  sayQr.on('start', function() {
+    this.takeSnapshot();
+  });
 
-  <span class="nx">sayCheese</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// do something when the viewfinder is resized</span>
-  <span class="p">});</span>
+  sayQr.on('snapshot', function(snapshot) {
+    // a snapshot has been taken, do something with it :)
+  });
 
-  <span class="nx">sayCheese</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;snapshot&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">snapshot</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// a snapshot has been taken, do something with it :)</span>
-  <span class="p">});</span>
-
-  <span class="nx">sayCheese</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
+  sayQr.on('qrReadSuccess', function(data) {
+    // Do something with the data.
+  });
+  sayQr.start();
+  sayQr.startQrRead(1000); // try to decode the image every 1 second.
+});
+{% endhighlight %}
 
         </div>
-        <div class='span6'>
-          <h3>Possible use cases</h3>
+        <div class="span6">
+          <h3>Compatibility</h3>
+          <p><strong>Works for the following browsers:</strong></p>
           <ul>
-            <li>Upload profile avatars direct from your webcam
-            <li>Take photos at a set interval
-            <li>Further manipulate canvas output
+            <li>Google Chrome
+            <li>Opera
+            <li>Firefox
           </ul>
+        </div>
+      </div>
 
-          <h3>Status and Compatibility</h3>
-          <p>This bad boy is only going to work for the latest and greatest browsers. Currently, that appears to be <strong>Chrome</strong> and <strong>Opera</strong>.</p>
-          <p>The library itself is currently a proof of concept. It works, and it's functional, but it's by no means robust. Behaviour may change unexpectedly for no discernible reason.</p>
-          <p><strong>Patches welcome!</strong></p>
+      <div class="row">
+        <div class="span12">
+          <h3>Source and documentation</h3>
+          <p>You can nab the source and see some slightly more detailed
+            documentation at the <a href="http://github.com/tlangs/say-cheese-r">GitHub repo</a>.
+            Feel free to file any issues or patches or whatever.</p>
         </div>
       </div>
     </div>
 
+    </div>
     <footer>
-      <div class='container'>
+      <div class="container">
         <hr>
-        <p>Cobbled together by <a href='http://leemach.in'>Lee Machin</a>, 2012</p>
+        <p>Say Cheese QR Code Edition hacked together by <a href="www.herewebe.net">Trevyn Langsford</a>, 2014</p>
+        <p>Say Cheese cobbled together by <a href="http://leemach.in">Lee Machin</a>, 2012</p>
       </div>
     </footer>
 
 
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js'></script>
-    <script src='public/js/bootstrap.min.js'></script>
-    <script src='https://raw.github.com/leemachin/say-cheese/master/say-cheese.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="public/js/bootstrap.min.js"></script>
+    <script src="js/jsqrcode-combined.min.js"></script>
+    <script src="js/say-cheese-qr.js"></script>
     <script>
-      $(function() {
-        var sayCheese = new SayCheese('#say-cheese-container');
+      
+        var sayCheeseQr = new SayQRCode('#say-cheese-container', { snapshots: true });
 
-        sayCheese.on('start', function(evt) {
+        sayCheeseQr.on('start', function() {
           $('#action-buttons').fadeIn('fast');
 
-          $('#reset-viewfinder').on('click', function(evt) {
-            event.stopImmediatePropagation();
-            sayCheese.resetViewfinder();
-          });
-
           $('#take-snapshot').on('click', function(evt) {
-            evt.stopImmediatePropagation();
-            sayCheese.takeSnapshot();
+            sayCheeseQr.takeSnapshot();
           });
         });
+        sayCheeseQr.on('qrReadSuccess', function(data) {
+          $('#qrSuccessOutput').text(data);
+        })
 
-        sayCheese.on('snapshot', function(evt, snapshot) {
+        $('#startQrReadButton').on('click', function(event) {
+          sayCheeseQr.startQrRead(1000);
+        });
+
+        $('#stopQrReadButton').on('click', function(event) {
+          sayCheeseQr.stopQrRead();
+        });
+
+        sayCheeseQr.on('error', function(error) {
+          var $alert = $('<div>');
+          $alert.addClass('alert alert-error').css('margin-top', '20px');
+
+          if (error === 'NOT_SUPPORTED') {
+            $alert.html("<strong>:(</strong> your browser doesn't support video yet!");
+          } else if (error === 'AUDIO_NOT_SUPPORTED') {
+            $alert.html("<strong>:(</strong> your browser doesn't support audio yet!");
+          } else {
+            $alert.html("<strong>:(</strong> you have to click 'allow' to try me out!");
+          }
+
+          $('.say-cheese').prepend($alert);
+        });
+
+        sayCheeseQr.on('snapshot', function(snapshot) {
           var img = document.createElement('img');
 
           $(img).on('load', function() {
@@ -114,8 +151,8 @@
           img.src = snapshot.toDataURL('image/png');
         });
 
-        sayCheese.start();
-      });
+        sayCheeseQr.start();
+      
     </script>
   </body>
 </html>
