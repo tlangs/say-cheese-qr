@@ -115,41 +115,48 @@ var SayQRCode = (function() {
       qrcode.callback = readSuccess;
   };
 
-    SayQRCode.prototype.startQrRead = function(milli) {
-        var mills = milli || 1000;
-        this.qrSnapIntervalId = setInterval(this.takeQrSnapshot.bind(this), mills);
-    };
+  SayQRCode.prototype.readSuccess = function(readSuccess) {
+    if (readSuccess != "error decoding QR Code") {
+      this.trigger('qrReadSuccess', readSuccess);
+    }
+  };
 
-    SayQRCode.prototype.stopQrRead = function() {
-        clearInterval(this.qrSnapIntervalId);
-    };
+  SayQRCode.prototype.startQrRead = function(milli) {
+      var mills = milli || 1000;
+      this.qrSnapIntervalId = setInterval(this.takeQrSnapshot.bind(this), mills);
+  };
+
+  SayQRCode.prototype.stopQrRead = function() {
+      clearInterval(this.qrSnapIntervalId);
+  };
 
   SayQRCode.prototype.takeQrSnapshot = function() {
-      if (!qrcode.callback || !this.qrReadError) {
-          alert("Please set QR options");
+    if (!qrcode.callback) {
+        qrcode.callback = this.readSuccess.bind(this);
+
+    }
+    if (this.video) {
+      width = this.video.videoWidth;
+      height = this.video.videoHeight;
+
+      var snapshot = document.createElement('canvas'),
+      ctx = snapshot.getContext('2d');
+
+      snapshot.width = width;
+      snapshot.height = height;
+
+      ctx.drawImage(this.video, 0, 0, width, height);
+
+      try {
+        qrcode.decode(snapshot.toDataURL("image/png"));
       }
-      if (this.video) {
-          width = this.video.videoWidth;
-          height = this.video.videoHeight;
-
-          var snapshot = document.createElement('canvas'),
-              ctx = snapshot.getContext('2d');
-
-          snapshot.width = width;
-          snapshot.height = height;
-
-          ctx.drawImage(this.video, 0, 0, width, height);
-
-          try {
-              qrcode.decode(snapshot.toDataURL("image/png"));
-          }
-          catch (e) {
-              this.qrReadError(e);
-          }
-
-          ctx = null;
+      catch (e) {
+        this.trigger('qrReadError',e);
+        console.log('--' + e);
       }
 
+      ctx = null;
+    }
   };
 
   SayQRCode.prototype.takeSnapshot = function takeSnapshot(width, height) {
@@ -182,11 +189,10 @@ var SayQRCode = (function() {
       this.trigger('error', 'NOT_SUPPORTED');
       return false;
     }
+    if(height) {
+        this.height = height;
 
-      if(height) {
-          this.height = height;
-
-      }
+    }
 
     var success = function success(stream) {
       this.stream = stream;
@@ -221,9 +227,9 @@ var SayQRCode = (function() {
 
   SayQRCode.prototype.stop = function stop() {
     this.stream.stop();
-      this.stopQrRead();
+    this.stopQrRead();
 
-      this.video.remove()
+    this.video.remove()
 
     if (window.URL && window.URL.revokeObjectURL) {
       window.URL.revokeObjectURL(this.video.src);
