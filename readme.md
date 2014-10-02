@@ -44,6 +44,12 @@ sayQR.start(320);
   // start the video with a height of 320 pixels
 ```
 
+Reading QR Codes
+----------------
+
+After initializing, you can start reading QR Codes by calling
+``
+
 Taking snapshots
 ----------------
 
