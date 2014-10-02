@@ -48,7 +48,19 @@ Reading QR Codes
 ----------------
 
 After initializing, you can start reading QR Codes by calling
-``
+`startQrRead(int)`:
+
+```javascript
+sayQr.on('qrReadSuccess', function(data) {
+    // Do something with the data.
+  });
+  
+sayQr.start();
+sayQr.startQrRead(1000); // try to decode the image every 1 second.
+```
+
+To stop reading the QR codes, just call 
+`sayQR.stopQrRead()`.
 
 Taking snapshots
 ----------------
