@@ -22,25 +22,25 @@ Usage
 Say Cheese exposes a minimal, event based API:
 
 ```javascript
-var sayCheese = new SayCheese('#container-element', { snapshots: true });
+var sayQR = new SayQRCode('#container-element', { snapshots: true });
 
-sayCheese.on('start', function() {
+sayQR.on('start', function() {
  // do something when started
  this.takeSnapshot();
 });
 
-sayCheese.on('error', function(error) {
+sayQR.on('error', function(error) {
  // handle errors, such as when a user denies the request to use the webcam,
  // or when the getUserMedia API isn't supported
 });
 
-sayCheese.on('snapshot', function(snapshot) {
+sayQR.on('snapshot', function(snapshot) {
   // do something with a snapshot canvas element, when taken
 });
 
-sayCheese.start();
+sayQR.start();
 
-sayCheese.start(320);
+sayQR.start(320);
   // start the video with a height of 320 pixels
 ```
 
@@ -51,18 +51,18 @@ You can take a snapshot at any time after initialisation, by calling
 `takeSnapshot()`:
 
 ```javascript
-sayCheese.on('snapshot', function(snapshot) {
+sayQR.on('snapshot', function(snapshot) {
   // do something with the snapshot
 });
 
-sayCheese.takeSnapshot();
+sayQR.takeSnapshot();
 ```
 
 If you need to change the size of the snapshot created, pass in the new width and height as arguments:
 
 ```javascript
 var width = 640, height = 480;
-sayCheese.takeSnapshot(width, height);
+sayQR.takeSnapshot(width, height);
 ```
 
 It defaults to the full size of the video (generally `640x480`) if the arguments are omitted.
@@ -73,7 +73,7 @@ I don't want snapshots; just give me the video!
 No problem. Just disable it when you first create the instance:
 
 ```javascript
-var sayCheese = new SayCheese('#container-element', { snapshots: false });
+var sayQR = new SayCheese('#container-element', { snapshots: false });
 ```
 
 Note that when you do this, `takeSnapshot()` will not do anything.
@@ -84,11 +84,10 @@ Stopping the show
 There's also a function to stop the webcam after loading it up:
 
 ```javascript
-sayCheese.on('stop', function() {
+sayQR.on('stop', function() {
   // do something when it's stopped
 });
-
-sayCheese.stop();
+sayQR.stop();
 ```
 
 Audio support
@@ -98,7 +97,7 @@ Audio's disabled by default, because it doesn't have full browser support. You c
 for browsers that do support it, though. Just set `audio` to true when setting up.
 
 ```javascript
-var sayCheese = new SayCheese('#container-element', { audio: true });
+var sayQR = new SayQRCode('#container-element', { audio: true });
 ```
 
 This will request access to the microphone, and will currently pipe the audio through to your
@@ -142,7 +141,7 @@ Compatibility
 License
 -------
 
-> Copyright (C) 2012 Lee Machin
+> Copyright (C) 2014 Trevyn Langsford
 >
 > Permission is hereby granted, free of charge, to any person obtaining
 > a copy of this software and associated documentation files (the
